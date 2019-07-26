@@ -39,7 +39,7 @@ namespace TennisTest
             player2.Score = player2Score;
             //Act
             game.SetScore(player2.Name);
-            var score = game.GetScore()
+            var score = game.GetScore();
 
             //Assert
             score.ShouldBe(score);
@@ -61,7 +61,7 @@ namespace TennisTest
             player2.Score = player2Score;
             //Act
             game.SetScore(player1.Name);
-            var score = game.GetScore()
+            var score = game.GetScore();
 
             //Assert
             score.ShouldBe("deuse");
@@ -80,7 +80,7 @@ namespace TennisTest
             player2.Score = player2Score;
             //Act
             game.SetScore(player1.Name);
-            var score = game.GetScore()
+            var score = game.GetScore();
 
             //Assert
             score.ShouldBe("Player1 win");
@@ -97,7 +97,7 @@ namespace TennisTest
             player2.Score = player2Score;
             //Act
             game.SetScore(player1.Name);
-            var score = game.GetScore()
+            var score = game.GetScore();
 
             //Assert
             score.ShouldBe("Player1 in advantage");
