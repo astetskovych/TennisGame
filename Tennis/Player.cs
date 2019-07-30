@@ -16,5 +16,26 @@ namespace Tennis
             Name = name;
             Score = 0;
         }
+
+        internal void Scores()
+        {
+            if (Score == 0)
+            {
+                Score = 15;
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        internal string GetScore()
+        {
+            if (Score != 0)
+            {
+                return Score.ToString();
+            }
+            return "love";
+        }
     }
 }
