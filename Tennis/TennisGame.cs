@@ -27,14 +27,15 @@ namespace Tennis
             {
                 return "deuse";
             }
-            //if (_player1.Score == 15 && _player2.Score == 0)
-            //{
-            //    return "15-love";
-            //}
-            //if (_player1.Score == 15 && _player2.Score == 15)
-            //{
-            //    return "15-15";
-            //}
+            if (_player1.Score == 40 && _player2.Score == 40)
+            {
+                return "deuse";
+            }
+            if (_player1.Score > 40 && _player2.Score <= 30)
+            {
+                return _player1.Name + " win";
+            }
+          
             return $"{_player1.GetScore()}-{_player2.GetScore()}";
             throw new Exception();
         }

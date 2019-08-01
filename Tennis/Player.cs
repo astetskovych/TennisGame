@@ -31,6 +31,10 @@ namespace Tennis
             {
                 Score = 40;
             }
+            else if (Score == 40)
+            {
+                Score = 41;
+            }
             else
             {
                 throw new NotImplementedException();
