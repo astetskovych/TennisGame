@@ -23,6 +23,10 @@ namespace Tennis
             {
                 return "love all";
             }
+            if (_player1.Score == 40 && _player2.Score == 40)
+            {
+                return "deuse";
+            }
             //if (_player1.Score == 15 && _player2.Score == 0)
             //{
             //    return "15-love";

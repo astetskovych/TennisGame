@@ -87,25 +87,30 @@ namespace TennisTest
         }
 
 
-        //[Theory]
-        //[InlineData(30, 40)]
-        //[InlineData(40, 1)]
-        //[InlineData(1, 2)]
-        //public void GetScore_ShouldbDeuse(int player1Score, int player2Score)
-        //{
-        //    //Arrange
-        //    var player1 = new Player("Player1");
-        //    var player2 = new Player("Player2");
-        //    var game = new TennisGame(player1, player2);
-        //    player1.Score = player1Score;
-        //    player2.Score = player2Score;
-        //    //Act
-        //    game.SetScore(player1.Name);
-        //    var score = game.GetScore();
+        [Fact]
+        public void GetScore_ShouldBeDeuse()
+        {
+            //Arrange
+            var player1 = new Player("Player1");
+            var player2 = new Player("Player2");
+            var game = new TennisGame(player1, player2);
 
-        //    //Assert
-        //    score.ShouldBe("deuse");
-        //}
+            //Act
+            for (int i = 0; i < 3; i++)
+            {
+                game.PlayerScored(player1);
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                game.PlayerScored(player2);
+            }
+
+            var result = game.GetScore();
+
+            //Assert
+            result.ShouldBe("deuse");
+        }
 
         //[Theory]
         //[InlineData(1, 40)]
