@@ -35,7 +35,11 @@ namespace Tennis
             {
                 return _player1.Name + " win";
             }
-          
+            if (_player1.Score == 41 && _player2.Score == 40)
+            {
+                return _player1.Name + " advantage";
+            }
+
             return $"{_player1.GetScore()}-{_player2.GetScore()}";
             throw new Exception();
         }

@@ -162,7 +162,7 @@ namespace TennisTest
             var result = game.GetScore();
 
             //Assert
-            result.ShouldBe("player1 advantage");
+            result.ShouldBe("Player1 advantage");
         }
     }
 }
