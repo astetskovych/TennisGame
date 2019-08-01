@@ -56,30 +56,35 @@ namespace TennisTest
             //Assert
             score.ShouldBe("15-15");
         }
-        //[Theory]
-        //[InlineData (0, 0, "Love-15")]
-        //[InlineData(0, 15, "Love-30")]
-        //[InlineData(0, 30, "Love-40")]
-        //[InlineData(15, 0, "15-15")]
-        //[InlineData(15, 15, "15-30")]
-        //[InlineData(15, 30, "15-40")]
-        //[InlineData(30, 0, "30-15")]
-        //public void GetScore_ShouldShouldReturnExpectedValue(int player1Score, int player2Score, string score)
-        //{
-        //    //Arrange
-        //    var player1 = new Player("Player1");
-        //    var player2 = new Player("Player2");
-        //    var game = new TennisGame(player1, player2);
-        //    player1.Score = player1Score;
-        //    player2.Score = player2Score;
-        //    //Act
-        //    game.SetScore(player2.Name);
-        //    var scores = game.GetScore();
 
-        //    //Assert
-        //    scores.ShouldBe(score);
+        [Theory]
+        [InlineData(1, 2, "15-30")]
+        [InlineData(1, 3, "15-40")]
+        [InlineData(2, 1, "30-15")]
+        [InlineData(3, 1, "40-15")]
+        public void GetScore_ShouldShouldReturnExpectedValue(int player1ScoredCount, int player2ScoredCount, string score)
+        {
+            //Arrange
+            var player1 = new Player("Player1");
+            var player2 = new Player("Player2");
+            var game = new TennisGame(player1, player2);
 
-        //}
+            //Act
+            for (int i = 0; i < player1ScoredCount; i++)
+            {
+                game.PlayerScored(player1);
+            }
+
+            for (int i = 0; i < player2ScoredCount; i++)
+            {
+                game.PlayerScored(player2);
+            }
+
+            var result = game.GetScore();
+
+            //Assert
+            result.ShouldBe(score);
+        }
 
 
         //[Theory]
