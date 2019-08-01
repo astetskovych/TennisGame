@@ -164,5 +164,30 @@ namespace TennisTest
             //Assert
             result.ShouldBe("Player1 advantage");
         }
+
+        [Fact]
+        public void GetScore_Player1ShouldWinAfterAdvantage()
+        {
+            //Arrange
+            var player1 = new Player("Player1");
+            var player2 = new Player("Player2");
+            var game = new TennisGame(player1, player2);
+
+            //Act
+            for (int i = 0; i < 5; i++)
+            {
+                game.PlayerScored(player1);
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                game.PlayerScored(player2);
+            }
+
+            var result = game.GetScore();
+
+            //Assert
+            result.ShouldBe("Player1 win");
+        }
     }
 }

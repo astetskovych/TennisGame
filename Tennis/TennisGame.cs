@@ -31,7 +31,7 @@ namespace Tennis
             {
                 return "deuse";
             }
-            if (_player1.Score > 40 && _player2.Score <= 30)
+            if (_player1.Score > 40 && (_player2.Score <= 30 || ((_player1.Score - _player2.Score) > 1)))
             {
                 return _player1.Name + " win";
             }
