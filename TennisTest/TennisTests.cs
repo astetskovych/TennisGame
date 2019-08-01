@@ -87,8 +87,12 @@ namespace TennisTest
         }
 
 
-        [Fact]
-        public void GetScore_ShouldBeDeuse()
+        [Theory]
+        [InlineData(3)]
+        [InlineData(4)]
+        [InlineData(10)]
+        [InlineData(100)]
+        public void GetScore_ShouldBeDeuse(int score)
         {
             //Arrange
             var player1 = new Player("Player1");
@@ -96,12 +100,12 @@ namespace TennisTest
             var game = new TennisGame(player1, player2);
 
             //Act
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < score; i++)
             {
                 game.PlayerScored(player1);
             }
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < score; i++)
             {
                 game.PlayerScored(player2);
             }

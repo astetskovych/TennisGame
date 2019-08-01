@@ -18,23 +18,45 @@ namespace Tennis
         }
 
         public string GetScore()
-        {            
-            if (_player1.Score == 0 && _player2.Score == 0)
+        {
+            string score;
+            var leader = GetLeadPlayer();
+            if (leader != null && leader.Score > 40)
             {
-                return "love all";
+                score = CheckOnEndGame(leader);
+                if (score != string.Empty)
+                {
+                    return score;
+                }
             }
-            if (_player1.Score == 40 && _player2.Score == 40)
+            else if (leader == null)
             {
-                return "deuse";
+                var scoreAll = _player1.Score;
+                if (scoreAll == 0)
+                {
+                    return "love all";
+                }
+                if (scoreAll >= 40)
+                {
+                    return "deuse";
+                }
+                
             }
-            if (_player1.Score == 40 && _player2.Score == 40)
-            {
-                return "deuse";
-            }
-            if (_player1.Score > 40 && (_player2.Score <= 30 || ((_player1.Score - _player2.Score) > 1)))
-            {
-                return _player1.Name + " win";
-            }
+          
+
+            //if (_player1.Score == 0 && _player2.Score == 0)
+            //{
+            //    return "love all";
+            //}
+            //if (_player1.Score == 40 && _player2.Score == 40)
+            //{
+            //    return "deuse";
+            //}
+            //if (_player1.Score == 40 && _player2.Score == 40)
+            //{
+            //    return "deuse";
+            //}
+         
             if (_player1.Score == 41 && _player2.Score == 40)
             {
                 return _player1.Name + " advantage";
@@ -42,6 +64,38 @@ namespace Tennis
 
             return $"{_player1.GetScore()}-{_player2.GetScore()}";
             throw new Exception();
+        }
+
+        private Player GetLeadPlayer()
+        {
+            if (_player1.Score > _player2.Score)
+            {
+                return _player1;
+            }
+            else if (_player2.Score > _player1.Score)
+            {
+                return _player2;
+            }
+            return null;
+        }
+
+        private Player GetNotLeadPlayer(Player leader)
+        {
+            if (leader == _player1)
+            {
+                return _player2;
+            }
+            return _player2;
+        }
+
+        private string CheckOnEndGame(Player leader)
+        {
+            var notLeader = GetNotLeadPlayer(leader);
+            if (leader.Score > 40 && (notLeader.Score <= 30 || ((leader.Score - notLeader.Score) > 1)))
+            {
+                return leader.Name + " win";
+            }
+            return string.Empty;
         }
 
         public void PlayerScored(Player player)
