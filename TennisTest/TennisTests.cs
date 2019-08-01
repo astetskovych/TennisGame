@@ -144,8 +144,12 @@ namespace TennisTest
             result.ShouldBe("Player1 win");
         }
 
-        [Fact]
-        public void GetScore_Player1ShouldBeInAdvantage()
+        [Theory]
+        [InlineData(3)]
+        [InlineData(4)]
+        [InlineData(10)]
+        [InlineData(100)]
+        public void GetScore_Player1ShouldBeInAdvantage(int player2Score)
         {
             //Arrange
             var player1 = new Player("Player1");
@@ -153,12 +157,12 @@ namespace TennisTest
             var game = new TennisGame(player1, player2);
 
             //Act
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < player2Score + 1; i++)
             {
                 game.PlayerScored(player1);
             }
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < player2Score; i++)
             {
                 game.PlayerScored(player2);
             }

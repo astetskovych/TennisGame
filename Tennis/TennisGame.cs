@@ -21,28 +21,41 @@ namespace Tennis
         {
             string score;
             var leader = GetLeadPlayer();
-            if (leader != null && leader.Score > 40)
+
+            if (leader != null)
             {
-                score = CheckOnEndGame(leader);
-                if (score != string.Empty)
+                if (leader.Score > 40)
                 {
-                    return score;
+                    score = CheckOnEndGame(leader);
+
+                    //win
+                    if (score != string.Empty)
+                    {
+                        return score;
+                    }
+                    //advantage
+                    else if ((leader.Score - GetNotLeadPlayer(leader).Score) < 2)
+                    {
+                        return leader.Name + " advantage";
+                    }
                 }
+                return $"{_player1.GetScore()}-{_player2.GetScore()}";
             }
-            else if (leader == null)
+            //all
+            else if (leader == null )
             {
                 var scoreAll = _player1.Score;
                 if (scoreAll == 0)
                 {
                     return "love all";
                 }
-                if (scoreAll >= 40)
+                else if (scoreAll >= 40)
                 {
                     return "deuse";
                 }
-                
+                return $"{_player1.GetScore()}-{_player2.GetScore()}";
             }
-          
+           
 
             //if (_player1.Score == 0 && _player2.Score == 0)
             //{
@@ -56,13 +69,14 @@ namespace Tennis
             //{
             //    return "deuse";
             //}
-         
-            if (_player1.Score == 41 && _player2.Score == 40)
-            {
-                return _player1.Name + " advantage";
-            }
 
-            return $"{_player1.GetScore()}-{_player2.GetScore()}";
+            //if (_player1.Score == 41 && _player2.Score == 40)
+            //{
+            //    return _player1.Name + " advantage";
+            //}
+
+
+            //return $"{_player1.GetScore()}-{_player2.GetScore()}";
             throw new Exception();
         }
 
