@@ -8,8 +8,9 @@ namespace Tennis
 {
     public class Player
     {
+        private readonly List<int> _scoreCollection = new List<int> { 0, 15, 30, 40 };
         public string Name { get; }
-        public int Score { get; set; }
+        public int Score { get; private set; }
 
         public Player(string name)
         {
@@ -19,25 +20,13 @@ namespace Tennis
 
         internal void Scores()
         {
-            if (Score == 0)
-            {
-                Score = 15;
-            }
-            else if (Score == 15)
-            {
-                Score = 30;
-            }
-            else if (Score == 30)
-            {
-                Score = 40;
-            }
-            else if (Score == 40)
-            {
-                Score = 41;
-            }
-            else if (Score > 40)
+            if (Score >= 40)
             {
                 Score++;
+            }
+            else if (Score < 40)
+            {
+                Score = _scoreCollection[_scoreCollection.IndexOf(Score) + 1];
             }
             else
             {
@@ -47,11 +36,7 @@ namespace Tennis
 
         internal string GetScore()
         {
-            if (Score != 0)
-            {
-                return Score.ToString();
-            }
-            return "love";
+            return Score != 0 ? Score.ToString() : "love";
         }
     }
 }

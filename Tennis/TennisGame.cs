@@ -56,27 +56,6 @@ namespace Tennis
                 return $"{_player1.GetScore()}-{_player2.GetScore()}";
             }
            
-
-            //if (_player1.Score == 0 && _player2.Score == 0)
-            //{
-            //    return "love all";
-            //}
-            //if (_player1.Score == 40 && _player2.Score == 40)
-            //{
-            //    return "deuse";
-            //}
-            //if (_player1.Score == 40 && _player2.Score == 40)
-            //{
-            //    return "deuse";
-            //}
-
-            //if (_player1.Score == 41 && _player2.Score == 40)
-            //{
-            //    return _player1.Name + " advantage";
-            //}
-
-
-            //return $"{_player1.GetScore()}-{_player2.GetScore()}";
             throw new Exception();
         }
 
