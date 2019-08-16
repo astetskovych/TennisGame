@@ -16,44 +16,37 @@ namespace Tennis
 
         public string GetScore()
         {
-            string score;
             var leader = GetLeadPlayer();
+            var isAdvantage = (leader.Score - GetNotLeadPlayer(leader).Score) < scoreDiffForWinning;
 
-            if (leader != null)
+            //scores are equals
+            if (leader == null)
             {
-                var isAdvantage = (leader.Score - GetNotLeadPlayer(leader).Score) < scoreDiffForWinning;
-
-                //advanatage
-                if (isAdvantage)
+                var scoreAll = _player1.Score;
+                if (scoreAll == 0)
                 {
-                    return leader.Name + " advantage";
+                    return "love all";
                 }
-
-                if (leader.Score <= 40)
+                else if (scoreAll >= 40)
                 {
-                    return SimpleScore();
+                    return "deuse";
                 }
-
-                score = CheckOnEndGame(leader);
-
-                //win
-                if (score != string.Empty)
-                {
-                    return score;
-                }
+                return SimpleScore();
             }
 
-            //scores are equal
-            var scoreAll = _player1.Score;
-            if (scoreAll == 0)
+            if (leader.Score <= 40)
             {
-                return "love all";
+                return SimpleScore();
             }
-            else if (scoreAll >= 40)
+
+            //advanatage
+            if (isAdvantage)
             {
-                return "deuse";
+                return leader.Name + " advantage";
             }
-            return SimpleScore();
+            
+            //win
+            return leader.Name + " win";
         }
 
         private Player GetLeadPlayer()
@@ -76,16 +69,6 @@ namespace Tennis
                 return _player2;
             }
             return _player1;
-        }
-
-        private string CheckOnEndGame(Player leader)
-        {
-            var notLeader = GetNotLeadPlayer(leader);
-            if (leader.Score > 40 && (notLeader.Score <= 30 || ((leader.Score - notLeader.Score) > 1)))
-            {
-                return leader.Name + " win";
-            }
-            return string.Empty;
         }
 
         private string SimpleScore()
