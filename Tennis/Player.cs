@@ -17,18 +17,7 @@ namespace Tennis
 
         internal void Scores()
         {
-            if (Score >= 40)
-            {
-                Score++;
-            }
-            else if (Score < 40)
-            {
-                Score = _scoreCollection[_scoreCollection.IndexOf(Score) + 1];
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
+            Score = Score < 40 ? _scoreCollection[_scoreCollection.IndexOf(Score) + 1] : Score + 1;
         }
 
         internal string GetScore()
