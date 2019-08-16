@@ -189,6 +189,33 @@ namespace TennisTest
             result.ShouldBe("Player1 advantage");
         }
 
+        [Theory]
+        [InlineData(3)]
+        [InlineData(4)]
+        [InlineData(10)]
+        [InlineData(100)]
+        public void GetScore_Player2ShouldBeInAdvantage(int player2Score)
+        {
+            //Arrange
+            var player1 = new Player("Player1");
+            var player2 = new Player("Player2");
+            var game = new TennisGame(player1, player2);
+
+            //Act
+            for (int i = 0; i < player2Score; i++)
+            {
+                game.PlayerScored(player1);
+                game.PlayerScored(player2);
+            }
+
+            game.PlayerScored(player2);
+
+            var result = game.GetScore();
+
+            //Assert
+            result.ShouldBe("Player2 advantage");
+        }
+
         [Fact]
         public void GetScore_Player1ShouldWinAfterAdvantage()
         {
@@ -198,20 +225,43 @@ namespace TennisTest
             var game = new TennisGame(player1, player2);
 
             //Act
-            for (int i = 0; i < 5; i++)
-            {
-                game.PlayerScored(player1);
-            }
-
-            for (int i = 0; i < 3; i++)
-            {
-                game.PlayerScored(player2);
-            }
+            game.PlayerScored(player1);
+            game.PlayerScored(player2);
+            game.PlayerScored(player1);
+            game.PlayerScored(player2);
+            game.PlayerScored(player1);
+            game.PlayerScored(player2);
+            game.PlayerScored(player1);
+            game.PlayerScored(player1);
 
             var result = game.GetScore();
 
             //Assert
             result.ShouldBe("Player1 win");
+        }
+
+        [Fact]
+        public void GetScore_Player2ShouldWinAfterAdvantage()
+        {
+            //Arrange
+            var player1 = new Player("Player1");
+            var player2 = new Player("Player2");
+            var game = new TennisGame(player1, player2);
+
+            //Act
+            game.PlayerScored(player2);
+            game.PlayerScored(player1);
+            game.PlayerScored(player1);
+            game.PlayerScored(player2);
+            game.PlayerScored(player2);
+            game.PlayerScored(player1);
+            game.PlayerScored(player2);
+            game.PlayerScored(player2);
+
+            var result = game.GetScore();
+
+            //Assert
+            result.ShouldBe("Player2 win");
         }
     }
 }
