@@ -48,14 +48,7 @@ namespace Tennis
                 return leader.Name + " advantage";
             }
 
-            score = CheckOnEndGame(leader);
-
-            //win
-            if (score != string.Empty)
-            {
-                return score;
-            }
-            throw new Exception();
+            return leader.Name + " win";
         }
 
         private Player GetLeadPlayer()
@@ -78,16 +71,6 @@ namespace Tennis
                 return _player2;
             }
             return _player1;
-        }
-
-        private string CheckOnEndGame(Player leader)
-        {
-            var notLeader = GetNotLeadPlayer(leader);
-            if (leader.Score > 40 && (notLeader.Score <= 30 || ((leader.Score - notLeader.Score) > 1)))
-            {
-                return leader.Name + " win";
-            }
-            return string.Empty;
         }
 
         private string SimpleScore()
