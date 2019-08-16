@@ -6,6 +6,7 @@ namespace Tennis
     {
         private Player _player1;
         private Player _player2;
+        private const int scoreDiffForWinning = 2;
 
         public TennisGame(Player player1, Player player2)
         {
@@ -20,39 +21,39 @@ namespace Tennis
 
             if (leader != null)
             {
-                if (leader.Score > 40)
-                {
-                    score = CheckOnEndGame(leader);
+                var isAdvantage = (leader.Score - GetNotLeadPlayer(leader).Score) < scoreDiffForWinning;
 
-                    //win
-                    if (score != string.Empty)
-                    {
-                        return score;
-                    }
-                    //advantage
-                    else if ((leader.Score - GetNotLeadPlayer(leader).Score) < 2)
-                    {
-                        return leader.Name + " advantage";
-                    }
+                //advanatage
+                if (isAdvantage)
+                {
+                    return leader.Name + " advantage";
                 }
-                return $"{_player1.GetScore()}-{_player2.GetScore()}";
+
+                if (leader.Score <= 40)
+                {
+                    return SimpleScore();
+                }
+
+                score = CheckOnEndGame(leader);
+
+                //win
+                if (score != string.Empty)
+                {
+                    return score;
+                }
             }
-            //all
-            else if (leader == null)
+
+            //scores are equal
+            var scoreAll = _player1.Score;
+            if (scoreAll == 0)
             {
-                var scoreAll = _player1.Score;
-                if (scoreAll == 0)
-                {
-                    return "love all";
-                }
-                else if (scoreAll >= 40)
-                {
-                    return "deuse";
-                }
-                return $"{_player1.GetScore()}-{_player2.GetScore()}";
+                return "love all";
             }
-           
-            throw new Exception();
+            else if (scoreAll >= 40)
+            {
+                return "deuse";
+            }
+            return SimpleScore();
         }
 
         private Player GetLeadPlayer()
@@ -85,6 +86,11 @@ namespace Tennis
                 return leader.Name + " win";
             }
             return string.Empty;
+        }
+
+        private string SimpleScore()
+        {
+            return $"{_player1.GetScore()}-{_player2.GetScore()}";
         }
 
         public void PlayerScored(Player player)
