@@ -62,6 +62,9 @@ namespace TennisTest
         [InlineData(1, 3, "15-40")]
         [InlineData(2, 1, "30-15")]
         [InlineData(3, 1, "40-15")]
+        [InlineData(2, 2, "30-30")]
+        [InlineData(2, 3, "30-40")]
+        [InlineData(3, 2, "40-30")]
         public void GetScore_ShouldShouldReturnExpectedValue(int player1ScoredCount, int player2ScoredCount, string score)
         {
             //Arrange
@@ -70,14 +73,17 @@ namespace TennisTest
             var game = new TennisGame(player1, player2);
 
             //Act
-            for (int i = 0; i < player1ScoredCount; i++)
+            int i = 0, j = 0;
+            for (; i < player1ScoredCount || j < player2ScoredCount; j++, i++)
             {
-                game.PlayerScored(player1);
-            }
-
-            for (int i = 0; i < player2ScoredCount; i++)
-            {
-                game.PlayerScored(player2);
+                if (i < player1ScoredCount)
+                {
+                    game.PlayerScored(player1);
+                }
+                if (j < player2ScoredCount)
+                {
+                    game.PlayerScored(player2);
+                }
             }
 
             var result = game.GetScore();
@@ -103,10 +109,6 @@ namespace TennisTest
             for (int i = 0; i < score; i++)
             {
                 game.PlayerScored(player1);
-            }
-
-            for (int i = 0; i < score; i++)
-            {
                 game.PlayerScored(player2);
             }
 
@@ -116,11 +118,8 @@ namespace TennisTest
             result.ShouldBe("deuse");
         }
 
-        [Theory]
-        [InlineData(0)]
-        [InlineData(1)]
-        [InlineData(2)]
-        public void GetScore_Player1ShouldWinWithoutDeuse(int player2Score)
+        [Fact]
+        public void GetScore_Player1ShouldWinWithoutDeuse()
         {
             //Arrange
             var player1 = new Player("Player1");
@@ -128,20 +127,39 @@ namespace TennisTest
             var game = new TennisGame(player1, player2);
 
             //Act
-            for (int i = 0; i < 4; i++)
-            {
-                game.PlayerScored(player1);
-            }
-
-            for (int i = 0; i < player2Score; i++)
-            {
-                game.PlayerScored(player2);
-            }
+            game.PlayerScored(player1);
+            game.PlayerScored(player2);
+            game.PlayerScored(player1);
+            game.PlayerScored(player1);
+            game.PlayerScored(player2);
+            game.PlayerScored(player1);
 
             var result = game.GetScore();
 
             //Assert
             result.ShouldBe("Player1 win");
+        }
+
+        [Fact]
+        public void GetScore_Player2ShouldWinWithoutDeuse()
+        {
+            //Arrange
+            var player1 = new Player("Player1");
+            var player2 = new Player("Player2");
+            var game = new TennisGame(player1, player2);
+
+            //Act
+            game.PlayerScored(player2);
+            game.PlayerScored(player1);
+            game.PlayerScored(player2);
+            game.PlayerScored(player2);
+            game.PlayerScored(player1);
+            game.PlayerScored(player2);
+
+            var result = game.GetScore();
+
+            //Assert
+            result.ShouldBe("Player2 win");
         }
 
         [Theory]
@@ -157,15 +175,13 @@ namespace TennisTest
             var game = new TennisGame(player1, player2);
 
             //Act
-            for (int i = 0; i < player2Score + 1; i++)
-            {
-                game.PlayerScored(player1);
-            }
-
             for (int i = 0; i < player2Score; i++)
             {
+                game.PlayerScored(player1);
                 game.PlayerScored(player2);
             }
+
+            game.PlayerScored(player1);
 
             var result = game.GetScore();
 

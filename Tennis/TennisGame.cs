@@ -42,7 +42,7 @@ namespace Tennis
                 return $"{_player1.GetScore()}-{_player2.GetScore()}";
             }
             //all
-            else if (leader == null )
+            else if (leader == null)
             {
                 var scoreAll = _player1.Score;
                 if (scoreAll == 0)
@@ -78,7 +78,7 @@ namespace Tennis
             {
                 return _player2;
             }
-            return _player2;
+            return _player1;
         }
 
         private string CheckOnEndGame(Player leader)
