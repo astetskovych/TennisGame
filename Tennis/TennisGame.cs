@@ -16,10 +16,11 @@ namespace Tennis
 
         public string GetScore()
         {
+            string score;
             var leader = GetLeadPlayer();
-            var isAdvantage = (leader.Score - GetNotLeadPlayer(leader).Score) < scoreDiffForWinning;
 
-            //scores are equals
+
+            //scores are equal
             if (leader == null)
             {
                 var scoreAll = _player1.Score;
@@ -34,6 +35,8 @@ namespace Tennis
                 return SimpleScore();
             }
 
+            var isAdvantage = (leader.Score - GetNotLeadPlayer(leader).Score) < scoreDiffForWinning;
+
             if (leader.Score <= 40)
             {
                 return SimpleScore();
@@ -44,9 +47,15 @@ namespace Tennis
             {
                 return leader.Name + " advantage";
             }
-            
+
+            score = CheckOnEndGame(leader);
+
             //win
-            return leader.Name + " win";
+            if (score != string.Empty)
+            {
+                return score;
+            }
+            throw new Exception();
         }
 
         private Player GetLeadPlayer()
@@ -69,6 +78,16 @@ namespace Tennis
                 return _player2;
             }
             return _player1;
+        }
+
+        private string CheckOnEndGame(Player leader)
+        {
+            var notLeader = GetNotLeadPlayer(leader);
+            if (leader.Score > 40 && (notLeader.Score <= 30 || ((leader.Score - notLeader.Score) > 1)))
+            {
+                return leader.Name + " win";
+            }
+            return string.Empty;
         }
 
         private string SimpleScore()
