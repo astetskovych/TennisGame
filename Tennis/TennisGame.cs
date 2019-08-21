@@ -23,7 +23,6 @@ namespace Tennis
         {
             var leader = GetLeadPlayer();
             
-
             //scores are equal
             if (leader == null)
             {
@@ -32,7 +31,7 @@ namespace Tennis
                 {
                     return "love all";
                 }
-                else if (scoreAll >= 40)
+                if (scoreAll >= 40)
                 {
                     return "deuse";
                 }
@@ -60,7 +59,7 @@ namespace Tennis
             {
                 return _player1;
             }
-            else if (_player2.Score > _player1.Score)
+            if (_player2.Score > _player1.Score)
             {
                 return _player2;
             }
@@ -69,11 +68,7 @@ namespace Tennis
 
         private Player GetNotLeadPlayer(Player leader)
         {
-            if (leader == _player1)
-            {
-                return _player2;
-            }
-            return _player1;
+            return leader == _player1 ? _player2 : _player1;
         }
 
         private string SimpleScore()
