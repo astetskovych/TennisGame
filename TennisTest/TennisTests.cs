@@ -263,5 +263,47 @@ namespace TennisTest
             //Assert
             result.ShouldBe("Player2 win");
         }
+
+        [Fact]
+        public void GetScore_Player2OverScores_ShouldThrowError()
+        {
+            //Arrange
+            var player1 = new Player("Player1");
+            var player2 = new Player("Player2");
+            var game = new TennisGame(player1, player2);
+
+            //Act
+            game.PlayerScored(player2); // 0-15
+            game.PlayerScored(player1); // 15-15
+            game.PlayerScored(player1); // 30-15
+            game.PlayerScored(player2); // 30-30
+            game.PlayerScored(player2); // 30-40
+            game.PlayerScored(player1); // 40-40
+            game.PlayerScored(player2); // advantage 2
+            game.PlayerScored(player2); // player 2 wins
+
+            Assert.Throws<InvalidOperationException>(() => game.PlayerScored(player2));
+        }
+
+        [Fact]
+        public void GetScore_Player1OverScores_ShouldThrowError()
+        {
+            //Arrange
+            var player1 = new Player("Player1");
+            var player2 = new Player("Player2");
+            var game = new TennisGame(player1, player2);
+
+            //Act
+            game.PlayerScored(player2); // 0-15
+            game.PlayerScored(player1); // 15-15
+            game.PlayerScored(player1); // 30-15
+            game.PlayerScored(player2); // 30-30
+            game.PlayerScored(player2); // 30-40
+            game.PlayerScored(player1); // 40-40
+            game.PlayerScored(player1); // advantage 1
+            game.PlayerScored(player1); // player 1 wins
+
+            Assert.Throws<InvalidOperationException>(() => game.PlayerScored(player1));
+        }
     }
 }

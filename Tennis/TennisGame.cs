@@ -6,7 +6,7 @@ namespace Tennis
     {
         private Player _player1;
         private Player _player2;
-        private const int scoreDiffForWinning = 2;
+        private const int scoreDiffForWinning = 20;
 
         public TennisGame(Player player1, Player player2)
         {
@@ -16,14 +16,17 @@ namespace Tennis
 
         public void PlayerScored(Player player)
         {
-            player.Scores();
+            if (player.Score > 40 && GetScoreDifference() == scoreDiffForWinning)
+            {
+                throw new InvalidOperationException("Game over");
+            }
+            player.Scores();          
         }
 
         public string GetScore()
         {
             var leader = GetLeadPlayer();
             
-
             //scores are equal
             if (leader == null)
             {
@@ -44,16 +47,21 @@ namespace Tennis
                 return SimpleScore();
             }
 
-            var isAdvantage = (leader.Score - GetNotLeadPlayer(leader).Score) < scoreDiffForWinning;
+            var isAdvantage = GetScoreDifference() < scoreDiffForWinning;
             if (isAdvantage)
             {
                 return leader.Name + " advantage";
             }
-
             return leader.Name + " win";
         }
 
         #region private
+        private int GetScoreDifference()
+        {
+            var leader = GetLeadPlayer();
+            return (leader != null) ? leader.Score - GetNotLeadPlayer(leader).Score : 0;
+        }
+
         private Player GetLeadPlayer()
         {
             if (_player1.Score > _player2.Score)
